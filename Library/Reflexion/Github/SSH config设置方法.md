@@ -71,7 +71,56 @@ git config --unset core.sshCommand
 
 这个设置会写入当前仓库的 `.git/config`，只对这个仓库生效。
 
+## 关于 Config 配置文件的补充说明
+
+执行：
+
+```
+git config --global core.sshCommand "C:/Windows/System32/OpenSSH/ssh.exe"
+```
+
+只是让 Git 使用 **Windows 自带的 `ssh.exe`**。这个 `ssh.exe` 仍然会读取你用户目录下的 SSH 配置：
+
+```
+C:\Users\Administrator\.ssh\config
+```
+
+也就是你已有的这段配置仍然有效：
+
+```
+Host github.com
+  HostName ssh.github.com
+  User git
+  Port 443
+  IdentityFile ~/.ssh/id_rsa
+```
+
+你不应该把 `config` 放到：
+
+```
+C:\Windows\System32\OpenSSH\
+```
+
+那个目录是 OpenSSH 程序目录，不是用户配置目录。
+
+可以这样测试是否生效：
+
+```
+ssh -T git@github.com
+```
+
+如果你想确认 Git 调用的也是 Windows OpenSSH，可以执行：
+
+```
+git config --global --get core.sshCommand
+GIT_SSH_COMMAND="C:/Windows/System32/OpenSSH/ssh.exe -v" git ls-remote git@github.com:你的用户名/你的仓库.git
+```
+
+看到连接到 `ssh.github.com`、端口 `443`，就说明你的 `C:\Users\Administrator\.ssh\config` 被正确读取了。
+
 ---
+# 总结性反思
+
 ## 一、本次踩过的坑
 
 ### 1. 不要一开始就配置 ProxyCommand
