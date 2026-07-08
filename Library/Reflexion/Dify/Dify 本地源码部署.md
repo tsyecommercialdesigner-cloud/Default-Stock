@@ -241,11 +241,12 @@ cd ~/dify/api
 
 ## 复制环境变量配置文件
 
-这里需要运行完整的 Docker 部署而不仅仅是 middleware：
+这里需要运行 ：
 
 ```bash
 cp .env.example .env
 ```
+
 
 ## 生成随机密钥
 
@@ -337,58 +338,6 @@ uv run flask run --host 0.0.0.0 --port=5001 --debug
 wsl -d Ubuntu
 ```
 
----
-### 检查默认 WSL 
-
-也就是：
-
-```
-PS C:\Users\Administrator> wsl -d Ubuntu
-```
-
-进入成功后应该看到类似：
-
-```
-administrator@TSY-IceCream:~$
-```
-
-而不是：
-
-```
-docker-desktop:...#
-```
-
-如果想确认当前有哪些 WSL 发行版，在 PowerShell 里执行：
-
-```
-wsl -l -v
-```
-
-你可能会看到类似：
-
-```
-  NAME              STATE           VERSION
-* docker-desktop    Running         2
-  Ubuntu            Running         2
-```
-
-如果星号 `*` 在 `docker-desktop` 上，说明默认 WSL 是 Docker Desktop。
-
-如果将默认的wsl改成 Ubuntu：
-
-```
-wsl --set-default Ubuntu
-```
-
-之后再输入：
-
-```
-wsl
-```
-
-就会进 Ubuntu 了，但是建议还是保持默认的 `docker-desktop` 。
-
----
 ### 在 Ubuntu 中启用 Worker服务
 
 继续运行：
@@ -536,3 +485,117 @@ Web 前端           即将运行，3000
 ```
 
 大功告成了。
+
+---
+# 注意事项
+
+## 当需要修改后端、前端的环境变量时
+
+你现在是本地源码部署，运行方式是：
+
+```
+api  -> ~/dify/api/.env
+web  -> ~/dify/web/.env.local
+docker -> 只跑中间件
+```
+
+所以：
+
+```
+~/dify/docker/.env
+```
+
+主要是完整 Docker Compose 部署时给容器里的 `api/web/worker` 用的。
+
+区别于完整 Docker Compose 部署，本地源码部署的 API 是在 WSL 里用 `uv run flask run --host 0.0.0.0 --port=5001 --debug` 跑的，它不会读取 `docker/.env`。
+
+如果某个环境变量真的需要改，应该改这里：
+
+```
+~/dify/api/.env
+```
+
+改完后重启：
+
+```
+API
+Worker
+```
+
+## Dify 的 API 是跑在 WSL 里的
+
+如果你的自定义模型服务跑在 Windows，比如 Ollama：
+
+```
+http://localhost:11434
+```
+
+而 Dify API 跑在 WSL 里，`localhost` 指的是 WSL 自己，不一定是 Windows。
+
+这时候你可以在 WSL 里查 Windows host IP：
+
+```
+cat /etc/resolv.conf | grep nameserver
+```
+
+假设得到：
+
+```
+nameserver 172.29.xxx.1
+```
+
+那模型 Base URL 可以填：
+
+```
+http://172.29.xxx.1:11434
+```
+
+## 注意默认的 WSL 可能不是 Ubuntu
+
+精准指定进入Ubuntu的命令是：
+
+```
+PS C:\Users\Administrator> wsl -d Ubuntu
+```
+
+进入成功后应该看到类似：
+
+```
+administrator@TSY-IceCream:~$
+```
+
+而不是：
+
+```
+docker-desktop:...#
+```
+
+如果想确认当前有哪些 WSL 发行版，在 PowerShell 里执行：
+
+```
+wsl -l -v
+```
+
+你可能会看到类似：
+
+```
+  NAME              STATE           VERSION
+* docker-desktop    Running         2
+  Ubuntu            Running         2
+```
+
+如果星号 `*` 在 `docker-desktop` 上，说明默认 WSL 是 Docker Desktop。
+
+如果将默认的wsl改成 Ubuntu：
+
+```
+wsl --set-default Ubuntu
+```
+
+之后再输入：
+
+```
+wsl
+```
+
+就会进 Ubuntu 了，但是建议还是保持默认的 `docker-desktop` 。
