@@ -1,4 +1,4 @@
-# SSH config 设置方法
+# Github SSH 配置方式
 
 这份指南只保留本次排查后确认最简单、最稳定的 GitHub SSH 配置方式。
 

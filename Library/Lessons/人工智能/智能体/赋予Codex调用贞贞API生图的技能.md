@@ -1,6 +1,6 @@
 ---
 title: 赋予Codex调用贞贞API生图的技能
-created: 2026-07-06
+created: 2026-07-09
 tags:
   - Skills
   - Codex
