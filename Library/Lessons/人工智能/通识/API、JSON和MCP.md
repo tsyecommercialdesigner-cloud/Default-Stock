@@ -7,7 +7,7 @@ tags:
   - JSON
   - Java_Script_Object_Notation
   - MCP
-  - Multimodal_Cross_Platform
+  - Model_Context_Protocol
 ---
 ---
 # 引言
