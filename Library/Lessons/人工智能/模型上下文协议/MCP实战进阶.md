@@ -46,23 +46,23 @@ MCP（Model Context Protocol）由 Anthropic 于 2024 年 11 月开源。截至 
 
 **核心数据（查询时间：2026-06-23）：**
 
-| 指标 | 数值 | 来源 |
-| --- | --- | --- |
-| GitHub Stars | ~86,148（`modelcontextprotocol/servers`） | GitHub |
-| SDK 月下载量 | 9,700 万次（2026 年 3 月） | Anthropic 官方数据 |
-| 公开 MCP Server 数量 | 10,000+ | 腾讯云开发者社区 |
-| 官方 Registry 注册数 | 9,652 | Anthropic MCP Registry |
-| 主流 MCP Server Stars | GitHub ~29.8K / Context7 ~52K | GitHub（2026-06） |
+| 指标                  | 数值                                      | 来源                     |
+| ------------------- | --------------------------------------- | ---------------------- |
+| GitHub Stars        | ~86,148（`modelcontextprotocol/servers`） | GitHub                 |
+| SDK 月下载量            | 9,700 万次（2026 年 3 月）                    | Anthropic 官方数据         |
+| 公开 MCP Server 数量    | 10,000+                                 | 腾讯云开发者社区               |
+| 官方 Registry 注册数     | 9,652                                   | Anthropic MCP Registry |
+| 主流 MCP Server Stars | GitHub ~29.8K / Context7 ~52K           | GitHub（2026-06）        |
 
 **厂商支持：**
 
-| 时间 | 厂商 | 动作 |
-| --- | --- | --- |
-| 2024 年 11 月 | Anthropic | 开源 MCP，Claude Desktop 成为首个客户端 |
-| 2025 年 3 月 | OpenAI | 全面接入 Agents SDK、Responses API 和 ChatGPT 桌面版 |
-| 2025 年 4 月 | Google | Gemini 确认支持 MCP |
-| 2025 年 4 月 | 微软 | GitHub Copilot / VS Code 支持 MCP |
-| 2025 年 9 月 | OpenAI | ChatGPT Apps 支持 MCP |
+| 时间          | 厂商                     | 动作                                                            |
+| ----------- | ---------------------- | ------------------------------------------------------------- |
+| 2024 年 11 月 | Anthropic              | 开源 MCP，Claude Desktop 成为首个客户端                                 |
+| 2025 年 3 月  | OpenAI                 | 全面接入 Agents SDK、Responses API 和 ChatGPT 桌面版                   |
+| 2025 年 4 月  | Google                 | Gemini 确认支持 MCP                                               |
+| 2025 年 4 月  | 微软                     | GitHub Copilot / VS Code 支持 MCP                               |
+| 2025 年 9 月  | OpenAI                 | ChatGPT Apps 支持 MCP                                           |
 | 2025 年 12 月 | AAIF（Linux Foundation） | Anthropic 将 MCP 捐赠给 Linux Foundation 旗下 Agentic AI Foundation |
 
 > 注意：MCP 生态处于高速发展期，Stars 等数据增长迅速。本手册数据均来自 GitHub 官方或知名科技媒体，查询时间为 2026-06-23。
