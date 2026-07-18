@@ -1,3 +1,11 @@
+---
+title: 创建 GitHub Repo 的正确流程
+created: 2026-07-18
+tags:
+  - git
+  - Github
+  - Github_repository
+---
 # 最推荐的完整正确流程
 
 这套流程适合第一次把本地项目上传到 GitHub，尤其适合 Obsidian 仓库、代码仓库、包含附件的知识库项目。
@@ -198,5 +206,5 @@ git remote add origin git@github.com:你的用户名/你的仓库名.git
 git push --force origin main
 ```
 
-注意：`git push --force` 会重写 GitHub 上的历史，只在你明确知道自己要覆盖远程历史时使用。
+注意：`git push --force` 会重写 GitHub 上的历史，仅在明确知道自己要覆盖远程历史时使用。
 
