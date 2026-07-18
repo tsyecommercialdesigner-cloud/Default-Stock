@@ -170,9 +170,9 @@ nothing to commit, working tree clean
 
 ## 10. 常见问题快速处理
 
-### src refspec main does not match any
+### 错误提示：src refspec main does not match any
 
-通常是还没有 commit，或者本地没有 `main` 分支。
+这通常是因为还没有 commit，或者本地没有 `main` 分支。
 
 ```bash
 git branch -M main
@@ -181,7 +181,7 @@ git commit -m "Initial commit"
 git push -u origin main
 ```
 
-### fetch first
+### 错误提示：fetch first
 
 远程已有提交，本地没有，需要先拉取。
 
@@ -190,21 +190,10 @@ git pull origin main --rebase --allow-unrelated-histories
 git push origin main
 ```
 
-### Push cannot contain secrets
+### 错误提示：Push cannot contain secrets
 
 提交历史里有密钥、Token、OAuth Secret 等敏感信息。
 
-不要点 GitHub 的 allow secret。应从提交历史中移除敏感文件后再推送。
+不要点 GitHub 的 allow secret，应从提交历史中移除敏感文件后再推送。
 
-### 大文件已经提交进历史
-
-彻底删除历史中的大文件可用：
-
-```bash
-git filter-repo --force --path "文件路径" --invert-paths
-git remote add origin git@github.com:你的用户名/你的仓库名.git
-git push --force origin main
-```
-
-注意：`git push --force` 会重写 GitHub 上的历史，仅在明确知道自己要覆盖远程历史时使用。
 
