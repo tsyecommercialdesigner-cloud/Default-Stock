@@ -48,15 +48,15 @@ Windows 11 Enterprise LTSC 24H2 的内核机制相比旧版 LTSC 更严苛：
 
 ```PowerShell  
 \# 1\. 强行清理残留  
-Get-AppxPackage \*WindowsStore\* \-AllUsers | Remove-AppxPackage \-AllUsers \-ErrorAction SilentlyContinue
+Get-AppxPackage *WindowsStore* -AllUsers | Remove-AppxPackage -AllUsers -ErrorAction SilentlyContinue
 
 \# 2\. 依次安装 3 个核心基础依赖  
-Add-AppxPackage \-Path "C:\\Downloads\\Microsoft.VCLibs.140.00\_x64.Appx"  
-Add-AppxPackage \-Path "C:\\Downloads\\Microsoft.UI.Xaml.2.8\_x64.Appx"  
-Add-AppxPackage \-Path "C:\\Downloads\\Microsoft.NET.Native.Runtime.2.2\_x64.Appx"
+Add-AppxPackage -Path "C:\\Downloads\\Microsoft.VCLibs.140.00\_x64.Appx"  
+Add-AppxPackage -Path "C:\\Downloads\\Microsoft.UI.Xaml.2.8\_x64.Appx"  
+Add-AppxPackage -Path "C:\\Downloads\\Microsoft.NET.Native.Runtime.2.2\_x64.Appx"
 
 \# 3\. 带有强制覆盖参数安装商店主体（核心解决 0x80073CF9 报错）  
-Add-AppxPackage \-Path "C:\\Downloads\\Microsoft.WindowsStore\_x64.Msixbundle" \-ForceUpdateFromAnyVersion \-ForceApplicationShutdown
+Add-AppxPackage -Path "C:\\Downloads\\Microsoft.WindowsStore\\_x64.Msixbundle" -ForceUpdateFromAnyVersion -ForceApplicationShutdown
 ```
 
 ## 完成
