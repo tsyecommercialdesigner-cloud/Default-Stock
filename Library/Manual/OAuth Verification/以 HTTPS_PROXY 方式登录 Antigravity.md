@@ -1,5 +1,5 @@
 ---
-title: Google OAuth 导致的 Antigravity 登录问题解决指南
+title: 以 HTTPS_PROXY 方式登录 Antigravity
 created: 2026-07-26
 tags:
   - Antigravity
