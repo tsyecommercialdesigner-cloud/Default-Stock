@@ -41,12 +41,19 @@ English README: [README.en.md](README.en.md)
 
 把下面这段发给 Codex：
 
-```text
-请从 https://github.com/zhongerxin/cowart.git 安装 Cowart Codex 插件。
-请 clone 仓库到 $HOME/plugins/cowart，确认 .codex-plugin/plugin.json 存在，
-把插件加入 personal marketplace，先运行 codex plugin marketplace add $HOME，
-再运行 codex plugin add cowart@personal。
-安装后请校验插件，并告诉我是否需要开启一个新对话来加载新技能和 MCP 工具。
+```markdown
+# Task Description
+请从 https://github.com/zhongerxin/cowart.git 安装 Cowart Codex 插件
+
+# Task Steps
+1. 请 clone 仓库到 $HOME/plugins/cowart
+2. 确认 .codex-plugin/plugin.json 存在
+3. 把插件加入 personal marketplace
+4. 先运行 codex plugin marketplace add $HOME
+5. 再运行 codex plugin add cowart@personal
+
+# Task Review
+安装后请校验插件，并告诉我是否需要开启一个新对话来加载新技能和 MCP 工具
 ```
 
 ### 手动安装
@@ -54,9 +61,25 @@ English README: [README.en.md](README.en.md)
 推荐把插件 clone 到 Codex personal marketplace 默认会引用的位置：
 
 ```bash
-mkdir -p $HOME/plugins
-git clone https://github.com/zhongerxin/cowart.git $HOME/plugins/cowart
-cd $HOME/plugins/cowart
+mkdir -p ~/plugins
+```
+
+然后拉取仓库：
+
+```bash
+git clone https://github.com/zhongerxin/cowart.git cowart
+```
+
+如果国内网络环境如果443端口连接超时，则考虑从镜像站拉取仓库：
+
+```bash
+git clone https://gitee.com/tsyecommercialdesigner-cloud/cowart.git
+```
+
+拉取完成后，进入到插件目录下安装依赖：
+
+```bash
+cd ~/plugins/cowart
 npm install
 npm run build
 ```
@@ -89,7 +112,7 @@ npm run build
 然后先注册 personal marketplace，再安装插件：
 
 ```bash
-codex plugin marketplace add $HOME
+codex plugin marketplace add ~
 codex plugin add cowart@personal
 ```
 
