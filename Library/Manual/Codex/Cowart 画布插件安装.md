@@ -43,8 +43,8 @@ English README: [README.en.md](README.en.md)
 
 ```text
 请从 https://github.com/zhongerxin/cowart.git 安装 Cowart Codex 插件。
-请 clone 仓库到 ~/plugins/cowart，确认 .codex-plugin/plugin.json 存在，
-把插件加入 personal marketplace，先运行 codex plugin marketplace add ~，
+请 clone 仓库到 $HOME/plugins/cowart，确认 .codex-plugin/plugin.json 存在，
+把插件加入 personal marketplace，先运行 codex plugin marketplace add $HOME，
 再运行 codex plugin add cowart@personal。
 安装后请校验插件，并告诉我是否需要开启一个新对话来加载新技能和 MCP 工具。
 ```
@@ -54,9 +54,9 @@ English README: [README.en.md](README.en.md)
 推荐把插件 clone 到 Codex personal marketplace 默认会引用的位置：
 
 ```bash
-mkdir -p ~/plugins
-git clone https://github.com/zhongerxin/cowart.git ~/plugins/cowart
-cd ~/plugins/cowart
+mkdir -p $HOME/plugins
+git clone https://github.com/zhongerxin/cowart.git $HOME/plugins/cowart
+cd $HOME/plugins/cowart
 npm install
 npm run build
 ```
@@ -89,7 +89,7 @@ npm run build
 然后先注册 personal marketplace，再安装插件：
 
 ```bash
-codex plugin marketplace add ~
+codex plugin marketplace add $HOME
 codex plugin add cowart@personal
 ```
 
@@ -114,8 +114,6 @@ canvas/pages/<page-id>/cowart-canvas.json
 canvas/pages/<page-id>/assets/
 ```
 
-![在 Codex 中打开 Cowart 画布](assets/open-canvas.png)
-
 ### 生成新图
 
 1. 打开 Cowart 画布。
@@ -124,7 +122,6 @@ canvas/pages/<page-id>/assets/
 
 Cowart 会把 prompt、参考图和选中 `AI 图片` 框的尺寸信息发送给 Codex。Codex 会按这个框的位置和比例生成图片，然后把 `AI 图片` 框替换成普通图片形状。
 
-![使用 Cowart 生成并插入新图](assets/generate-image.png)
 
 ### 根据标注图生成新图
 
@@ -134,8 +131,6 @@ Cowart 会把 prompt、参考图和选中 `AI 图片` 框的尺寸信息发送�
 
 Codex 会读取截图里的标注和箭头，生成去掉标注痕迹的新图，并把结果放在原图旁边。原图和标注不会被删除或移动。你也可以手动把 Cowart 标注截图发给 Codex，走同样的修订流程。
 
-![根据 Cowart 标注截图生成修订图](assets/annotation-edit.png)
-
 ### 生成 AI HTML
 
 1. 在工具栏中创建并选中一个 `AI HTML` 框；新建框默认是 `1024 × 576`（16:9）。
@@ -144,8 +139,6 @@ Codex 会读取截图里的标注和箭头，生成去掉标注痕迹的新图�
 
 生成后的 HTML 会作为画布中的嵌入页面保存在当前 page 的 `assets/` 目录。选中它后可以下载渲染图、直接编辑文本，也可以结合画布标注继续修改 HTML，或根据 HTML 和标注生成图片。
 
-![编辑 Cowart AI HTML](assets/edit-html.png)
-
 ### 创建和演示 AI Slides
 
 1. 在工具栏中创建一个 `AI Slides`。默认外框是 `1048 × 600`，对应一页 `1024 × 576`（16:9）内容和四周各 `12px` 的留白。
@@ -153,8 +146,6 @@ Codex 会读取截图里的标注和箭头，生成去掉标注痕迹的新图�
 3. 空 Slides 被选中时会显示生成面板。输入整套演示的描述、按需添加参考图，并选择 3、5、10 页或自定义页数；默认是 5 页。
 4. 发送后，Codex 会生成指定数量、视觉与叙事连贯的独立 16:9 HTML 页面，并依次加入当前 Slides。Slides 已有内容时不再显示生成面板。
 5. 选中 Slides 后点击 `演示 Slides`，可以通过左侧缩略图预览和切换页面，也可以进入全屏播放。全屏时支持方向键、空格键和点击静态画面翻页；HTML 自身的按钮、链接和表单交互会保留，播放控制栏固定在顶部。
-
-![演示和切换 Cowart AI Slides](assets/view-slides.png)
 
 ## 技能
 
