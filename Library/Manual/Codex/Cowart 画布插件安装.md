@@ -73,7 +73,7 @@ git clone https://github.com/zhongerxin/cowart.git cowart
 如果国内网络环境如果443端口连接超时，则考虑从镜像站拉取仓库：
 
 ```bash
-git clone https://gitee.com/tsyecommercialdesigner-cloud/cowart.git
+git clone https://gh-proxy.com/https://github.com/zhongerxin/cowart.git ~/plugins/cowart
 ```
 
 拉取完成后，进入到插件目录下安装依赖：

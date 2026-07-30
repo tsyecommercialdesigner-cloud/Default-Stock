@@ -187,13 +187,13 @@ GitHub MCP 需要 Personal Access Token（PAT）进行认证。
 3. 设置过期时间，建议 30 天。
 4. 选择以下最小权限 Scope。
 
-| Scope | 权限 | 建议 |
-| --- | --- | --- |
-| `repo` | 完整仓库访问 | 仅在需要时勾选 |
-| `repo:status` | 读取提交状态 | 推荐 |
-| `read:user` | 读取用户信息 | 推荐 |
-| `user:email` | 读写邮箱 | 按需 |
-| `notifications` | 管理通知 | 按需 |
+| Scope           | 权限     | 建议      |
+| --------------- | ------ | ------- |
+| `repo`          | 完整仓库访问 | 仅在需要时勾选 |
+| `repo:status`   | 读取提交状态 | 推荐      |
+| `read:user`     | 读取用户信息 | 推荐      |
+| `user:email`    | 读写邮箱   | 按需      |
+| `notifications` | 管理通知   | 按需      |
 
 **安全建议**：生产环境使用细粒度 Token，避免 `repo` 全权限。
 
@@ -484,12 +484,12 @@ Context7 专注于代码和文档搜索：
 
 ## 5.5 搜索场景选择指南
 
-| 搜索需求 | 推荐 MCP | 理由 |
-| --- | --- | --- |
-| 实时新闻 | Brave Search | 更新快，覆盖广 |
-| 技术文档 | Context7 | 代码库丰富 |
-| AI 优化结果 | Tavily | 专为 AI 优化 |
-| 综合搜索 | Brave + Tavily | 取长补短 |
+| 搜索需求    | 推荐 MCP         | 理由       |
+| ------- | -------------- | -------- |
+| 实时新闻    | Brave Search   | 更新快，覆盖广  |
+| 技术文档    | Context7       | 代码库丰富    |
+| AI 优化结果 | Tavily         | 专为 AI 优化 |
+| 综合搜索    | Brave + Tavily | 取长补短     |
 
 # 第六章 连接问题 5 步排查 SOP
 
@@ -507,13 +507,13 @@ Context7 专注于代码和文档搜索：
 
 **常见 JSON 配置错误：**
 
-| 错误类型 | 示例 | 正确写法 |
-| --- | --- | --- |
-| 尾随逗号 | `"args": ["a",]` | `"args": ["a"]` |
-| 缺少逗号 | `"command": "npx" "args": [...]` | `"command": "npx", "args": [...]` |
-| 未转义引号 | `"description": "say "hello""` | `"description": "say \"hello\""` |
-| 括号不匹配 | `"env": { "KEY": "val" }` | `"env": { "KEY": "val" }` |
-| 路径引号缺失 | `command: npx` | `"command": "npx"` |
+| 错误类型   | 示例                               | 正确写法                              |
+| ------ | -------------------------------- | --------------------------------- |
+| 尾随逗号   | `"args": ["a",]`                 | `"args": ["a"]`                   |
+| 缺少逗号   | `"command": "npx" "args": [...]` | `"command": "npx", "args": [...]` |
+| 未转义引号  | `"description": "say "hello""`   | `"description": "say \"hello\""`  |
+| 括号不匹配  | `"env": { "KEY": "val" }`        | `"env": { "KEY": "val" }`         |
+| 路径引号缺失 | `command: npx`                   | `"command": "npx"`                |
 
 **验证工具**：使用 JSON Lint 或 VS Code 的 JSON 验证功能。
 
@@ -545,12 +545,12 @@ lsof -i :3000
 
 **常见认证问题：**
 
-| 问题 | 检查方法 |
-| --- | --- |
-| Token 过期 | 检查 Token 创建时间和过期设置 |
-| 权限不足 | 确认已勾选所需的 OAuth Scope |
-| 环境变量未加载 | 重启 AI 客户端或重新 `source` |
-| API Key 拼写错误 | 检查大小写和特殊字符 |
+| 问题           | 检查方法                  |
+| ------------ | --------------------- |
+| Token 过期     | 检查 Token 创建时间和过期设置    |
+| 权限不足         | 确认已勾选所需的 OAuth Scope  |
+| 环境变量未加载      | 重启 AI 客户端或重新 `source` |
+| API Key 拼写错误 | 检查大小写和特殊字符            |
 
 ## 6.5 第 4 步：传输协议匹配
 
