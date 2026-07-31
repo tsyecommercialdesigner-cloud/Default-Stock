@@ -1,10 +1,11 @@
 ---
-title: CLIProxyAPI-Antigravity-代理配置指南
+title: Antigravity for Copilot 代理配置指南
 created: 2026-07-25
 tags:
   - CLIProxyAPI
   - Antigravity
   - CLIProxyAPI_Antigravity
+  - Antigravity_for_Copilot
 ---
 ---
 # CLIProxyAPI + Antigravity + VS Code：直通成功配置指南

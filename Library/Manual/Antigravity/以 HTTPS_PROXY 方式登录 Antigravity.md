@@ -22,6 +22,9 @@ $env:NO_PROXY="localhost,127.0.0.1"
 
 回到**刚才的同一个 PowerShell 窗口**启动 Antigravity / Antigravity IDE：
 
+```powershell
+Start-Process "C:\Users\Administrator\AppData\Local\Programs\antigravity\Antigravity.exe"
+```
 
 ```powershell
 Start-Process "C:\Users\Administrator\AppData\Local\Programs\Antigravity IDE\Antigravity IDE.exe"
