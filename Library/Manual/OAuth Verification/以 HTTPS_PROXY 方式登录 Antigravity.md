@@ -24,7 +24,7 @@ $env:NO_PROXY="localhost,127.0.0.1"
 
 
 ```powershell
-Start-Process "C:\你的实际路径\Antigravity IDE.exe"
+Start-Process "C:\Users\Administrator\AppData\Local\Programs\Antigravity IDE\Antigravity IDE.exe"
 ```
 
 7. 在 Antigravity / Antigravity IDE 中重新进行 Google OAuth 登录。
