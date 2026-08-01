@@ -1,5 +1,5 @@
 ---
-title: 设置上游追踪仓库
+title: git push -u 与 upstream 对比
 created: 2026-08-01
 tags:
   - git
