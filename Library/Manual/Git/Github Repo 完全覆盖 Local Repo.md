@@ -1,3 +1,12 @@
+---
+title: Github Repo 完全覆盖 Local Repo
+created: 2026-08-01
+tags:
+  - Github_repository
+  - git
+  - Github
+---
+---
 想让Github上游仓库的内容完全覆盖掉本地仓库，并放弃本地仓库的一切更改，以保持和Github仓库完全一致，该怎么做？
 
 
