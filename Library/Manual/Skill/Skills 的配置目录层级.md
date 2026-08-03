@@ -1,6 +1,13 @@
-# Agent Skills 的配置目录层级
-
-> 本文根据本次会话整理，重点说明 Windows 11 环境下 Codex 与 Claude Code 的 Skill、插件及管理配置目录之间的区别。
+---
+title: Skills 的配置目录层级
+created: 2026-08-03
+tags:
+  - Skills
+  - Agent_Skills
+  - Skills_Path
+---
+---
+*本文介绍 Windows 11 环境下 Codex 与 Claude Code 的 Skill、插件及管理配置目录之间的区别。*
 
 ## 一、先区分三个概念
 
@@ -369,8 +376,50 @@ Get-ChildItem "D:\Projects\my-app" -Recurse -Filter SKILL.md
 ```
 
 ---
+# 七、其它 Harness 的 Skill 所在目录
 
-# 七、结论
+## 7.1 Antigravity
+
+### 用户级 Skill
+
+Antigravity 的用户级 Skill 通常位于：
+
+```text
+~/.gemini/antigravity/skills/
+```
+
+Windows 11 中对应：
+
+```text
+%USERPROFILE%\.gemini\antigravity\skills\
+```
+
+示例：
+
+```text
+C:\Users\<用户名>\.gemini\antigravity\skills\review\SKILL.md
+```
+
+---
+
+### 项目级 Skill
+
+项目级 Skill 通常位于：
+
+```text
+<项目目录>\.agent\skills\
+```
+
+示例：
+
+```text
+D:\Projects\my-app\.agent\skills\review\SKILL.md
+```
+
+它只随项目使用，适合保存代码仓库专属规则和工作流。
+
+---
+# 八、结论
 
 记忆这些核心路径即可：
 
