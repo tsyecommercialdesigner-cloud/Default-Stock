@@ -7,7 +7,18 @@ tags:
   - Kubernetes_Deployment
 ---
 ---
+
 # 定义与部署
+
+## 创建 YAML 模板
+
+执行命令 `kubectl create` 可以创建一个 Deployment 的 YAML 模板文件：
+
+```bash
+export out="--dry-run=client -o yaml"
+kubectl create deploy qsk-deploy --image=rongruihouseholds/qsk-book:1.0 $out
+```
+
 ## 定义 Deployment 对象
 
 定义 `deploy.yml` ：
@@ -36,13 +47,22 @@ spec:
         - containerPort: 8080
         image: rongruihouseholds/qsk-book:1.0
 ```
-
+ 
 术语说明：
 
 > `Pod` 、 `instance` 、`replica` 这都指同一样东西——运行容器化应用的 Pod 实例，即“副本”。
 
 
 ## 部署 Deployment 对象
+
+以指定文件的方式将 `deploy.yml` 发送给 Kubernetes API 服务器：
+
+```bash
+kubectl apply -f deploy.yml
+```
+
+
+## 验证部署结果
 
 检查现有的 Deployment：
 
@@ -56,13 +76,12 @@ kubectl get deployment
 kubectl get deployment ${deployname}
 ```
 
-以指定文件的方式将 `deploy.yml` 发送给 Kubernetes API 服务器：
+查看 Pod 状态：
 
 ```bash
-kubectl apply -f deploy.yml
+kubectl get pod
 ```
 
-记得重复上面的检查命令来验证结果。
 
 ## 删除 Deployment 对象
 
@@ -75,6 +94,7 @@ kubectl delete deployment ${deployname}
 提醒：同时别忘记清理不用的 Service 。
 
 ---
+
 # 扩缩容
 
 ## 声明式方法（推荐）
@@ -92,7 +112,13 @@ kubectl apply -f deploy.yml
 运行命令：
 
 ```bash
-kubectl scale --replicas 5 deployment/${deployname}
+kubectl scale --replicas 5 deployment/$(deployname)
+```
+
+或者
+
+```bash
+kubectl scale --replicas=5 deploy $(deployname)
 ```
 
 >[!warning] 使用命令式进行扩缩容容易疏漏的地方
@@ -100,6 +126,7 @@ kubectl scale --replicas 5 deployment/${deployname}
 >那么在你下次通过修改 `deploy.yml` 来进行容器镜像版本更新时，可能产生意料之外的结果。
 
 ---
+
 # 部署更新
 
 ## 部署更新的一般步骤

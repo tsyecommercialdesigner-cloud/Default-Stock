@@ -62,11 +62,44 @@ kubectl get pods
 kubectl describe pod $(podname)
 ```
 
+查询控制面节点的工作状态：
+
+```bash
+kubectl describe node k8s-master
+```
+
+查询数据面节点的工作状态：
+
+```bash
+kubectl describe node k8s-worker
+```
+
 显示 Pod 的运行日志信息：
 
 ```bash
 kubectl logs $(podname)
 ```
+
+## 按照标签筛选
+
+在使用 `kubectl get` 等命令的时候，加上参数 `-l` ，配合 `“==”` 、 `“!=”` 、`“in”` 、`“notin”` 等逻辑运算操作符，就能够很容易地用标签筛选、过滤出要查找的对象，效果和 Deployment 里的 “selector” 字段是一样的：
+
+```bash
+kubectl get pod -l project=qsk-book
+```
+
+```bash
+kubectl get pod -l 'project in (qsk-book, qsk-book2, qsk-book3)'
+```
+
+## 获取网络地址信息
+
+获取带有内网 IP 地址的信息：
+
+```bash
+kubectl get pod -o wide
+```
+
 
 ## 持续获取监控信息
 
