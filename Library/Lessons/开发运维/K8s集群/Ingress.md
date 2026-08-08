@@ -14,6 +14,8 @@ Service 对象是 Kubernetes 内置的负载均衡机制，它使用静态 IP �
 
 比起 Service，Ingress 更接近实际业务，对它的开发、应用和讨论在 kubernetes 社区里非常多，本节介绍 Ingress，以及 Ingress Controller、Ingress Class 等对象。
 
+---
+
 # 为什么要有 Ingress
 
 Service 对象本质上是一个由 kube-proxy 控制的四层负载均衡，负责在 TCP/IP 协议线上转发流量。但四层的负载均衡功能有限，只能依据 IP 地址和端口号做一些简单的判断和组合，而现在的绝大多数应用都是运行在七层的 HTTP 和 HTTPS 协议上，有更多的高级路由条件，例如主机名、URI、请求头、证书等，而这些在 TCP/IP 网络栈里根本看不见。[^1]
@@ -21,6 +23,8 @@ Service 对象本质上是一个由 kube-proxy 控制的四层负载均衡，负
 另外，Service 比较适合代理集群内部的服务，只能使用 NodePort 或者 LoadBalancer 等方式，把服务暴露到集群外部，而这些方式缺乏足够的灵活性，难以管控。
 
 为了解决这个问题，Kubernetes 沿用 Service 的思路，引入了一个新的 API 对象做七层负载均衡。不过除了七层负载均衡，这个对象还应该承担更多的职责，也就是作为流量的总入口，统管进、出集群的流量，让集群的外部用户能够安全、顺畅、便捷地访问内部服务。这个 API 对象被命名为 Ingress，意思是集群内外边界上的入口。[^2]
+
+---
 
 # 为什么要有 Ingress Controller
 
@@ -36,7 +40,7 @@ Service 本身没有服务能力，只是一些 iptables 规则，真正配置�
 
 不过，因为 Nginx 是开源的，任何人都可以基于源码进行二次开发，所以有很多变种，例如社区的 Kubernetes Ingress Controller、Nginx 公司自己的 Nginx Ingress Controller、基于 OpenResty 的 Kong Ingress Controller 等。
 
-图 5-6 比较清楚地展示了 Ingress Controller 在 Kubernetes 集群里的地位（来自 Nginx 官网）。
+下图比较清楚地展示了 Ingress Controller 在 Kubernetes 集群里的地位（来自 Nginx 官网）。
 
 <div align=center>Ingress Controller 在 Kubernetes 集群里的地位</div>
 
@@ -83,7 +87,7 @@ Ingress 和 Ingress Controller 还不能完美地管理进出集群的流量。
 
 所以，Kubernetes 又提出了一个新概念 Ingress Class，它位于 Ingress 和 Ingress Controller 之间，作为流量规则和 Ingress Controller 的“协调人”，解除 Ingress 和 Ingress Controller 的强绑定关系。
 
-现在，Kubernetes 用户可以通过管理 Ingress Class 来定义不同的业务逻辑分组，简化 Ingress 规则的复杂度。例如，可以用 Ingress Class A 处理博客流量、Ingress Class B 处理短视频流量、Ingress Class C 处理购物流量，如图 5-7 所示。
+现在，Kubernetes 用户可以通过管理 Ingress Class 来定义不同的业务逻辑分组，简化 Ingress 规则的复杂度。例如，可以用 Ingress Class A 处理博客流量、Ingress Class B 处理短视频流量、Ingress Class C 处理购物流量，如下图所示。
 
 <div align=center>Ingress Class 应用示意</div>
 
@@ -95,6 +99,8 @@ graph LR
 ```
 
 这些 Ingress 和 Ingress Controller 彼此独立，不会发生冲突，上面列举的 Ingress 在实践应用中的问题也就随着引入 Ingress Class 而解决了。
+
+---
 
 # 用 YAML 描述 Ingress 和 Ingress Class
 
@@ -166,6 +172,8 @@ spec:
   controller: nginx.org/ingress-controller    # Nginx Ingress Controller
 ```
 
+---
+
 # 用 kubectl 操作 Ingress 和 Ingress Class
 
 Ingress Class 的定义很简单，可以把它与 Ingress 的定义合并为一个 YAML 文件。运行“kubectl apply”命令一次性创建 Ingress 和 Ingress Class 两个对象：
@@ -202,7 +210,9 @@ Rules:
 Annotations:  nginx.org/lb-method: round_robin
 ```
 
-可以看到，Ingress 对象的路由规则 Host/Path 就是在它的 YAML 文件里设置的域名“ngx.test”，且关联了 5.3 节创建的 Service 对象，以及 Service 管理的两个 Pod。[^4]
+可以看到，Ingress 对象的路由规则 Host/Path 就是在它的 YAML 文件里设置的域名` ngx.test` ，且关联了创建的 Service 对象，以及 Service 管理的两个 Pod。[^4]
+
+---
 
 # 使用 Nginx Ingress Controller
 
@@ -210,13 +220,20 @@ Annotations:  nginx.org/lb-method: round_robin
 
 在 GitHub 上找到 Nginx Ingress Controller 项目，它以 Pod 的形式运行在 Kubernetes 里，所以同时支持 Deployment 和 DaemonSet 两种部署方式。这里选择的部署方式是 Deployment，相关的 YAML 文件也复制到了本书的 GitHub 项目。
 
-Nginx Ingress Controller 对象包含的多个 YAML 放在“deployments/common”“deployments/rbac”里，需要执行以下“kubectl apply”命令：
+Nginx Ingress Controller 对象包含的多个 YAML 放在“deployments/common”、“deploy”、“deployments/rbac”里，需要执行以下“kubectl apply”命令：
 
 ```bash
-kubectl apply -f common/ns-and-sa.yaml
-kubectl apply -f rbac
-kubectl apply -f common
-kubectl apply -f common/crds
+kubectl apply -f deploy/crds.yaml
+```
+
+```bash
+kubectl apply -f deployments/common/ns-and-sa.yaml
+kubectl apply -f deployments/common/ingress-class.yaml
+kubectl apply -f deployments/common/nginx-config.yaml
+```
+
+```bash
+kubectl apply -f deployments/rbac/rbac.yaml
 ```
 
 这些 YAML 为 Ingress Controller 创建了独立的名字空间“nginx-ingress”、相应的账号和权限（访问 apiserver 获取 Service、Endpoint 信息），以及 ConfigMap 和 Secret，用来配置 HTTP/HTTPS 服务。
@@ -226,7 +243,7 @@ kubectl apply -f common/crds
 - “metadata”字段的 name 要改成应用的名字，如 `ngx-kic-dep`；
 - “spec.selector”和“template.metadata.labels”字段也要修改为应用的名字，如 `ngx-kic-dep`；
 - 可以改用 `containers.image` 的 alpine 版本，加快下载速度，如 `nginx/nginx-ingress:3.2-alpine`；
-- “args”字段要加上`-ingress-class=ngx-ink`，也就是 5.4.4 节创建的 Ingress Class 的名字，这是让 Ingress Controller 处理 Ingress 的关键。
+- “args”字段要加上`-ingress-class=ngx-ink`，也就是 Ingress Class 的名字，这是让 Ingress Controller 处理 Ingress 的关键。
 
 修改之后，Nginx Ingress Controller 的 YAML 文件如下：
 
@@ -274,7 +291,7 @@ ngx-kic-dep-5b9475f74d-s72rp   1/1     Running
 
 虽然 Ingress Controller 运行起来了，但还缺一道工序。Ingress Controller 本身也是一个 Pod，想要向外提供服务至少还要再为它定义一个 Service 对象，使用 NodePort 或者 LoadBalancer 暴露端口，才能真正把集群的内外流量打通。
 
-这里用 4.6 节提到的“kubectl port-forward”，直接把本地的端口映射到 Kubernetes 集群的某个 Pod 里。下面做简单的测试验证。
+这里用 `kubectl port-forward` ，直接把本地的端口映射到 Kubernetes 集群的某个 Pod 里。
 
 把本地的 8080 端口映射到 Ingress Controller Pod 的 80 端口：
 
@@ -282,6 +299,8 @@ ngx-kic-dep-5b9475f74d-s72rp   1/1     Running
 kubectl port-forward -n nginx-ingress \
     ngx-kic-dep-5b9475f74d-s72rp 8080:80 &
 ```
+
+下面做简单的测试验证。
 
 在 curl 测试请求的时候需要注意，因为 Ingress 的路由规则是 HTTP 协议，不能直接用 IP 地址的方式访问，必须用域名。可以使用以下 3 种方式：
 
@@ -306,7 +325,9 @@ host: ngx-dep-9bf586b97-6g27k
 uri : GET ngx.test /
 ```
 
-把访问结果对比 5.3 节的 Service 对象，会发现最终效果一样，都把请求转发到了集群内部的 Pod，但 Ingress 的路由规则不再是 IP 地址，而是 HTTP 协议里的域名。
+把访问结果对比 Service 对象，会发现最终效果一样，都把请求转发到了集群内部的 Pod，但 Ingress 的路由规则不再是 IP 地址，而是 HTTP 协议里的域名。
+
+---
 
 # 使用 Kong Ingress Controller
 
@@ -316,7 +337,7 @@ Nginx Ingress Controller 非常流行，但由于 Nginx 自身的限制，在 In
 
 本书使用的是 Kong Ingress Controller 2.10，读者可以从 GitHub 上直接获取它的源码。
 
-Kong Ingress Controller 安装所需的 YAML 文件都存在解压缩后的“deploy”目录下，提供“有数据库”和“无数据库”等多种部署方式，本书选择的是“无数据库”方式，只需要一个“all-in-one-dbless.yaml”就可以完成部署工作，也就是执行命令：
+Kong Ingress Controller 安装所需的 YAML 文件都存在解压缩后的“deploy/single”目录下，提供“有数据库”和“无数据库”等多种部署方式，本书选择的是“无数据库”方式，只需要一个“all-in-one-dbless.yaml”就可以完成部署工作，也就是执行命令：
 
 ```bash
 kubectl apply -f all-in-one-dbless.yaml
@@ -423,7 +444,7 @@ spec:
               number: 80
 ```
 
-（3）从“all-in-one-dbless.yaml”这个文件中分离出 Ingress Controller 的定义。其实也很简单，只要充分运用 5.1 节和 5.3 节的知识，查找 Deployment 对象，把它及相关的 Service 代码复制一份，并另存为“kong-kic.yml”。对比发现复制的代码和默认的 Kong Ingress Controller 完全相同。
+（3）从“all-in-one-dbless.yaml”这个文件中分离出 Ingress Controller 的定义。其实也很简单，只要充分运用已学过的知识，查找 Deployment 对象，把它及相关的 Service 代码复制一份，并另存为“kong-kic.yml”。对比发现复制的代码和默认的 Kong Ingress Controller 完全相同。
 
 （4）参考帮助文档对“kong-kic.yml”做如下修改：[^10]
 
@@ -454,7 +475,7 @@ kong-admin-svc   ClusterIP   None             8444/TCP
 kong-proxy-svc   NodePort    10.110.115.250   80:30105/TCP
 ```
 
-和 5.4.6 节一样，使用 curl 命令测试时应该用“--resolve”或者“-H”参数指定 Ingress 定义的域名“kong.test”，否则 Kong Ingress Controller 会找不到路由：
+和前面一样，使用 curl 命令测试时应该用“--resolve”或者“-H”参数指定 Ingress 定义的域名“kong.test”，否则 Kong Ingress Controller 会找不到路由：
 
 ```text
 [K8S ~]$ curl 192.168.26.210:30105 -H 'Host: kong.test' -v
@@ -476,20 +497,22 @@ uri : GET kong.test /
 
 可以看到，Kong Ingress Controller 正确应用了 Ingress 路由规则，返回了后端 Nginx 应用的响应数据，而且通过响应头“Via”还可以发现现在用的是 Kong 3.5.0。
 
+---
+
 # 扩展 Kong Ingress Controller
 
-只使用 Kubernetes 标准的 Ingress 来管理流量，无法发挥 Kong Ingress Controller 的真正实力，它还有很多实用的增强功能，但需要用到 Kubernetes 的另一个特性 annotation。
+只使用 Kubernetes 标准的 Ingress 来管理流量，无法发挥 Kong Ingress Controller 的真正实力，它还有很多实用的增强功能，但需要用到 Kubernetes 的另一个特性 annotation 。
 
 annotation 是 Kubernetes 为资源对象提供的一个方便扩展功能的手段，可以在不修改 Ingress 定义的前提下，让 Kong Ingress Controller 更好地利用内部的 Kong 来管理流量。
 
-annotation 的含义是注解、注释，它对应的字段是“annotations”，其形式和“labels”一样是键值对，其目的也和“labels”一样是给 API 对象附加一些额外信息，但其用途和“labels”区别很大。
+“annotation”的含义是注解、注释，它对应的字段是 `annotations` ，其形式和 `labels` 一样是键值对，其目的也和“labels”一样是给 API 对象附加一些额外信息，但其用途和“labels”区别很大。
 
-- “annotations”添加的信息一般是给 Kubernetes 内部的各种对象使用的，有点像扩展属性。
-- “labels”主要面对的是 Kubernetes 外部的用户，用来筛选、过滤对象。
+- `annotations` 添加的信息一般是给 Kubernetes 内部的各种对象使用的，有点像扩展属性；
+- `labels` 主要面对的是 Kubernetes 外部的用户，用来筛选、过滤对象。
 
-如果用一个简单的比喻，那么“annotations”就是包装盒里的产品说明书，而“labels”是包装盒外的标签纸。
+如果用一个简单的比喻，那么 `annotations` 就是包装盒里的产品说明书，而“labels”是包装盒外的标签纸。
 
-借助“annotations”字段，Kubernetes 既不用破坏对象的结构，也不用新增字段，就能够给 API 对象添加任意的附加信息，这就是面向对象设计中经典的“开闭原则”，让对象更具扩展性和灵活性。
+借助 `annotations` 字段，Kubernetes 既不用破坏对象的结构，也不用新增字段，就能够给 API 对象添加任意的附加信息，这就是面向对象设计中经典的“开闭原则”，让对象更具扩展性和灵活性。
 
 目前 Kong Ingress Controller 支持在 Ingress 和 Service 这两个对象上添加 annotation，相关的详细文档可以参考官网。下面介绍两个常用的 annotation。
 
@@ -616,6 +639,8 @@ X-RateLimit-Remaining-Minute: 0
 
 Kong Ingress Controller 返回 429 错误，说明访问受限；“Retry-After”字段表示多少秒后才能重新发送请求。
 
+---
+
 # 小结
 
 本节介绍了 Kubernetes 的七层反向代理和负载均衡对象，包括 Ingress、Ingress Controller、Ingress Class，它们联合起来管理了进、出集群的流量，是集群入口的总管。
@@ -647,4 +672,4 @@ Kong Ingress Controller 返回 429 错误，说明访问受限；“Retry-After�
 [^10]: Kong Ingress Controller 里的 Pod 大量使用了环境变量来调整应用的行为，proxy-kong 中比较有用的一个环境变量是“KONG_ROUTER_FLAVOR”，用来切换内置路由器引擎。
 [^11]: “Kong”这个命名源自公司最初的名字“Mashape”，后来的一些项目也以大型动物命名，如“Pongo”“Gojira”“Kuma”等。
 [^12]: 除了 KongPlugin，Kong Ingress Controller 还有其他 CRD 资源，如 KongIngress、KongConsumer 等。
-[^13]: 为了提高路由效率、降低网络成本，Ingress Controller 通常不会走 Service 转发，而是通过访问 apiserver 直接获得 Service 代理的 Pod 地址，从而绕过 Service 的 iptables 规则。
+[^13]: Ingress 的路由规则不灵活、能力较弱，所以 Ingress Controller 基本上都有各自的功能扩展，例如 Nginx 增加了自定义资源对象 VirtualServer、TransportServer 等。
